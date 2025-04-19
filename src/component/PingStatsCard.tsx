@@ -7,6 +7,23 @@ const DummyChart = () => (
   </div>
 );
 
+function DateToString(date){
+  const dateObject = new Date(date);
+  const year = dateObject.getFullYear();
+  let month = dateObject.getMonth() + 1;
+  const day = dateObject.getDate();
+  const hour = dateObject.getHours() + 9;
+  let minute = dateObject.getMinutes();
+  let second = dateObject.getSeconds();
+
+  month = month < 10 ? '0' + month : month;
+  minute = minute < 10 ? '0' + minute : minute;
+  second = second < 10 ? '0' + second : second;
+
+  const dateString = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+  return dateString;
+}
+
 const PingStatsCard = ({stats}) => {
   const [flipped, setFlipped] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -35,13 +52,13 @@ const PingStatsCard = ({stats}) => {
           {/* Front */}
           <div className="absolute w-full h-full bg-gradient-to-br from-[#0e1b28] to-[#1f2e45] text-white p-4 rounded-2xl shadow-lg border border-yellow-500 backface-hidden">
             <h2 className="text-xl font-bold mb-2">{stats.name}</h2>
-            <p className="text-sm text-gray-400">마지막 수정: {stats.updatedAt}</p>
+            <p className="text-sm text-gray-400">마지막 수정: {DateToString(stats.updatedAt)}</p>
             {stats.contents.slice(0,3).map((stat, index) => (
               <div key={index} className="flex items-center gap-4 mb-2">
                 <img src={stat.imgUrl} alt={stat.name} className="w-10 h-10 rounded-md border border-yellow-400" />
                 <div className="flex-1">
                   <p className="text-lg font-semibold">{stat.title}</p>
-                  <p className="text-sm text-gray-300">{stat.value}</p>
+                  <p className="text-sm text-gray-300">{stat.value}{stats.unit}</p>
                 </div>
                 {/* <div className="text-sm">
                   {ping.rankChange != null && (
@@ -78,7 +95,10 @@ const PingStatsCard = ({stats}) => {
             {/* <h3 className="text-lg font-semibold mb-2">🔥 TOP 4~10 핑</h3> */}
             <ul className="list-disc pl-5 text-sm text-gray-300 space-y-1">
               {stats.contents.map((stat, i) => (
-                <li key={i}>{stat.title} : {stat.value}</li>
+                <div key={i} className="flex justify-center items-center gap-4">
+                  <img src={stat.imgUrl} alt={stat.name} className="w-10 h-10 rounded-md border border-yellow-400 " />
+                  <p>{stat.title} : {stat.value}</p>
+                </div>
               ))}
             </ul>
 
