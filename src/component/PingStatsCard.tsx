@@ -11,12 +11,13 @@ function DateToString(date){
   const dateObject = new Date(date);
   const year = dateObject.getFullYear();
   let month = dateObject.getMonth() + 1;
-  const day = dateObject.getDate();
+  let day = dateObject.getDate();
   const hour = dateObject.getHours() + 9;
   let minute = dateObject.getMinutes();
   let second = dateObject.getSeconds();
 
   month = month < 10 ? '0' + month : month;
+  day = day < 10 ? '0' + day : day;
   minute = minute < 10 ? '0' + minute : minute;
   second = second < 10 ? '0' + second : second;
 
